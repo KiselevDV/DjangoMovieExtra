@@ -14,11 +14,6 @@ from .models import Post
 from .permissions import AuthorPermissionsMixin, MembersPermissionsMixin
 
 
-class PostListView(ListView):
-    """Список постов"""
-    model = Post
-
-
 @method_decorator(login_required, name='post')
 class PostDetailView1(MembersPermissionsMixin, DetailView):
     """Подробное описание статьи"""
@@ -59,3 +54,14 @@ class PostDetailView2(View):
 @login_required
 def func(request):
     pass
+
+
+class PostListView1(ListView):
+    """Список постов"""
+    model = Post
+
+
+class PostListView2(ListView):
+    """Список постов. Через кастомный менеджер"""
+    # queryset = Post.custom_manager.custom_filter()
+    queryset = Post.custom_manager.custom_order_by('-title')
